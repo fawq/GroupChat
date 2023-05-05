@@ -1,9 +1,9 @@
 import threading
-from google.protobuf.timestamp_pb2 import Timestamp
 from datetime import datetime
-from tkinter import simpledialog, Tk, Frame, END, Text, TOP, Label, Entry, LEFT, BOTTOM, X
+from tkinter import simpledialog, Tk, Frame, END, Text, Label, Entry
 
 import grpc
+from google.protobuf.timestamp_pb2 import Timestamp
 
 import chat.chat_pb2 as chat
 import chat.chat_pb2_grpc as chat_grpc
@@ -33,7 +33,7 @@ class Client:
 
     def listen_for_messages(self):
         for message in self.conn.ChatStream(chat.Empty()):
-            timestamp = message.timestamp.seconds + message.timestamp.nanos/1e9
+            timestamp = message.timestamp.seconds + message.timestamp.nanos / 1e9
             self.chat_list.insert(END, f"[{datetime.fromtimestamp(timestamp)} {message.name}] {message.message}\n")
 
     def send_message(self, event):
