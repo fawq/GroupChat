@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "groupchat"
+version = "0.1.0"
+description = ""
+authors = ["Krystian Krakowski <kkrakowski22@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+grpcio-tools = "^1.54.0"
+protobuf = "^4.22.4"
+google = "^3.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
