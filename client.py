@@ -20,7 +20,10 @@ class Client:
         self.username = ""
         self.frame = None
 
-        channel = grpc.insecure_channel(f"{address}:{port}")
+        ca_cert = 'certificate/client.pem'
+        root_certs = open(ca_cert, 'rb').read()
+        credentials = grpc.ssl_channel_credentials(root_certs)
+        channel = grpc.secure_channel(f"{address}:{port}", credentials)
         self.conn = chat_grpc.ChatServerStub(channel)
 
     def run(self):

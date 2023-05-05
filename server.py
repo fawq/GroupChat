@@ -31,6 +31,13 @@ if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     chat_grpc.add_ChatServerServicer_to_server(ChatServer(), server)
     print('Starting server. Listening...')
-    server.add_insecure_port(f"[::]:{port}")
+    keyfile = 'certificate/server.key'
+    certfile = 'certificate/server.pem'
+    private_key = open(keyfile, 'rb').read()
+    certificate_chain = open(certfile, 'rb').read()
+    credentials = grpc.ssl_server_credentials(
+        [(private_key, certificate_chain)]
+    )
+    server.add_secure_port(f"[::]:{port}", credentials)
     server.start()
     server.wait_for_termination()
