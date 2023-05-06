@@ -1,3 +1,4 @@
+import os.path
 import threading
 from datetime import datetime
 from tkinter import simpledialog, Tk, Frame, END, Text, Label, Entry
@@ -20,13 +21,21 @@ class Client:
         self.username = ""
         self.frame = None
 
-        ca_cert = 'certificate/client.pem'
-        root_certs = open(ca_cert, 'rb').read()
-        credentials = grpc.ssl_channel_credentials(root_certs)
-        channel = grpc.secure_channel(f"{address}:{port}", credentials)
+        self.address = address
+        self.port = port
+        self.conn = None
+
+    def run(self, ca_cert="certificate/client.pem"):
+        if os.path.exists(ca_cert):
+            root_certs = open(ca_cert, 'rb').read()
+            credentials = grpc.ssl_channel_credentials(root_certs)
+            channel = grpc.secure_channel(f"{self.address}:{self.port}", credentials)
+            print("Secure client started")
+        else:
+            channel = grpc.insecure_channel(f"{self.address}:{self.port}")
+            print("Insecure client started. Please pass ca_cert path")
         self.conn = chat_grpc.ChatServerStub(channel)
 
-    def run(self):
         self.__setup_ui()
         threading.Thread(target=self.listen_for_messages, daemon=True).start()
         self.frame.mainloop()

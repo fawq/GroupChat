@@ -1,3 +1,4 @@
+import os.path
 import threading
 from concurrent import futures
 
@@ -10,7 +11,7 @@ import chat.chat_pb2_grpc as chat_grpc
 class Server(chat_grpc.ChatServerServicer):
     PORT = 11912
 
-    def __init__(self, port = PORT):
+    def __init__(self, port=PORT):
         self.chats = []
         self._chats_lock = threading.Lock()
         self.port = port
@@ -28,18 +29,21 @@ class Server(chat_grpc.ChatServerServicer):
             self.chats.append(request)
         return chat.Empty()
 
-    def run(self):
+    def run(self, keyfile="certificate/server.key", certfile="certificate/server.pem"):
         chat_server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         chat_grpc.add_ChatServerServicer_to_server(Server(), chat_server)
         print('Starting server. Listening...')
-        keyfile = 'certificate/server.key'
-        certfile = 'certificate/server.pem'
-        private_key = open(keyfile, 'rb').read()
-        certificate_chain = open(certfile, 'rb').read()
-        credentials = grpc.ssl_server_credentials(
-            [(private_key, certificate_chain)]
-        )
-        chat_server.add_secure_port(f"[::]:{self.port}", credentials)
+        if os.path.exists(keyfile) and os.path.exists(certfile):
+            private_key = open(keyfile, 'rb').read()
+            certificate_chain = open(certfile, 'rb').read()
+            credentials = grpc.ssl_server_credentials(
+                [(private_key, certificate_chain)]
+            )
+            chat_server.add_secure_port(f"[::]:{self.port}", credentials)
+            print("Secure connection established")
+        else:
+            chat_server.add_insecure_port(f"[::]:{self.port}")
+            print("Insecure connection established! Please pass keyfile and certfile path")
         chat_server.start()
         chat_server.wait_for_termination()
 

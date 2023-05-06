@@ -11,12 +11,12 @@ class GroupChat:
 
     @staticmethod
     @app.command()
-    def run_client(address=ADDRESS, port=PORT):
+    def run_client(address=ADDRESS, port=PORT, ca_cert="certificate/client.pem"):
         client = Client(address, port)
-        client.run()
+        client.run(ca_cert)
 
     @staticmethod
     @app.command()
-    def run_server(port=PORT):
+    def run_server(port=PORT, keyfile="certificate/server.key", certfile="certificate/server.pem"):
         server = Server(port)
-        server.run()
+        server.run(keyfile, certfile)
