@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "groupchat"
-version = "0.3.1"
+version = "0.3.2"
 description = ""
 authors = ["Krystian Krakowski <kkrakowski22@gmail.com>"]
 readme = "README.md"
 packages = [{include = "group_chat.py"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.12"
 grpcio-tools = "^1.54.2"
 protobuf = "^4.23.1"
 google = "^3.0.0"
