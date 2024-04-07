@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "groupchat"
-version = "0.3.2"
+version = "0.3.3"
 description = ""
 authors = ["Krystian Krakowski <kkrakowski22@gmail.com>"]
 readme = "README.md"
