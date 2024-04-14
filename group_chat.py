@@ -1,6 +1,7 @@
+import typer
+
 from client import Client
 from server import Server
-import typer
 
 app = typer.Typer()
 
@@ -17,6 +18,8 @@ class GroupChat:
 
     @staticmethod
     @app.command()
-    def run_server(port=PORT, keyfile="certificate/server.key", certfile="certificate/server.pem"):
+    def run_server(
+        port=PORT, keyfile="certificate/server.key", certfile="certificate/server.pem"
+    ):
         server = Server(port)
         server.run(keyfile, certfile)

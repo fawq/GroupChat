@@ -32,10 +32,10 @@ class Server(chat_grpc.ChatServerServicer):
     def run(self, keyfile="certificate/server.key", certfile="certificate/server.pem"):
         chat_server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         chat_grpc.add_ChatServerServicer_to_server(Server(), chat_server)
-        print('Starting server. Listening...')
+        print("Starting server. Listening...")
         if os.path.exists(keyfile) and os.path.exists(certfile):
-            private_key = open(keyfile, 'rb').read()
-            certificate_chain = open(certfile, 'rb').read()
+            private_key = open(keyfile, "rb").read()
+            certificate_chain = open(certfile, "rb").read()
             credentials = grpc.ssl_server_credentials(
                 [(private_key, certificate_chain)]
             )
@@ -43,11 +43,13 @@ class Server(chat_grpc.ChatServerServicer):
             print("Secure connection established")
         else:
             chat_server.add_insecure_port(f"[::]:{self.port}")
-            print("Insecure connection established! Please pass keyfile and certfile path")
+            print(
+                "Insecure connection established! Please pass keyfile and certfile path"
+            )
         chat_server.start()
         chat_server.wait_for_termination()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     server = Server()
     server.run()
