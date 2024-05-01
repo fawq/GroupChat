@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "groupchat"
-version = "0.3.7"
+version = "0.3.8"
 description = ""
 authors = ["Krystian Krakowski <kkrakowski22@gmail.com>"]
 readme = "README.md"
@@ -8,17 +8,14 @@ packages = [{include = "group_chat.py"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-grpcio-tools = "^1.62.1"
-protobuf = "^4.23.1"
+grpcio-tools = "^1.63.0"
+protobuf = "^5.26.1"
 google = "^3.0.0"
-trustme = "^1.0.0"
-types-protobuf = "^4.24.0.20240311"
-grpc-stubs = "^1.53.0.2"
-mypy-protobuf = "^3.4.0"
-typer = "^0.9.0"
-
-[tool.poetry.dev-dependencies]
-mypy = "^1.9.0"
+trustme = "^1.1.0"
+types-protobuf = "^5.26.0.20240422"
+grpc-stubs = "^1.53.0.5"
+mypy-protobuf = "^3.6.0"
+typer = "^0.12.3"
 
 [tool.poetry.scripts]
 group-chat = "group_chat:app"
@@ -26,7 +23,8 @@ group-chat = "group_chat:app"
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.0"
 isort = "^5.13.2"
-black = "^24.4.0"
+black = "^24.4.2"
+mypy = "^1.10.0"
 
 [build-system]
 requires = ["poetry-core"]
