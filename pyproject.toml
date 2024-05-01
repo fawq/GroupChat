@@ -26,7 +26,7 @@ group-chat = "group_chat:app"
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.0"
 isort = "^5.13.2"
-black = "^24.4.0"
+black = "^24.4.2"
 
 [build-system]
 requires = ["poetry-core"]
